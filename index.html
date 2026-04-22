@@ -4,10 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pesquisa de Satisfação — Confeitaria</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet"
+  />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── RESET ── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    /* ── BASE ── */
     body {
       font-family: 'DM Sans', sans-serif;
       background: #fdf0f4;
@@ -18,6 +27,7 @@
       padding: 2rem 1rem 4rem;
     }
 
+    /* ── CARD WRAPPER ── */
     .card {
       background: #fff;
       width: 100%;
@@ -27,77 +37,414 @@
       box-shadow: 0 8px 40px rgba(200, 80, 120, 0.12);
     }
 
-    .hero { position: relative; width: 100%; height: 240px; overflow: hidden; background: #f9d6df; }
-    .hero img { width: 100%; height: 100%; object-fit: cover; opacity: 0.82; display: block; }
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      overflow: hidden;
+      background: #f9d6df;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.82;
+      display: block;
+    }
+
     .hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(249,214,223,0.2) 0%, rgba(255,255,255,0.96) 100%);
-      display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 1.75rem;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(249, 214, 223, 0.2) 0%,
+        rgba(255, 255, 255, 0.96) 100%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 1.75rem;
     }
+
     .brand-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: #fff; border: 1.5px solid #f4a7be; border-radius: 50px; padding: 5px 18px; margin-bottom: 0.75rem;
-      font-family: 'Playfair Display', serif; font-size: 12px; color: #c26180; letter-spacing: 0.05em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1.5px solid #f4a7be;
+      border-radius: 50px;
+      padding: 5px 18px;
+      margin-bottom: 0.75rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 12px;
+      color: #c26180;
+      letter-spacing: 0.05em;
     }
-    .hero-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #7a2a45; text-align: center; line-height: 1.2; }
-    .hero-sub { font-size: 13px; color: #b06882; text-align: center; margin-top: 5px; font-weight: 300; }
 
-    .form-body { padding: 1.75rem 1.75rem 2rem; }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #7a2a45;
+      text-align: center;
+      line-height: 1.2;
+    }
 
-    .progress-wrap { margin-bottom: 2rem; display: flex; flex-direction: column; gap: 6px; }
-    .progress-label { font-size: 12px; color: #c26180; font-weight: 500; }
-    .progress-track { height: 4px; background: #fce4ec; border-radius: 99px; overflow: hidden; }
-    .progress-fill { height: 100%; background: #e8829e; border-radius: 99px; transition: width 0.5s ease; width: 0%; }
+    .hero-sub {
+      font-size: 13px;
+      color: #b06882;
+      text-align: center;
+      margin-top: 5px;
+      font-weight: 300;
+    }
 
-    .q-block { border: 1px solid #f4c2d0; border-radius: 16px; padding: 1.4rem 1.5rem; margin-bottom: 1.25rem; transition: border-color 0.2s; }
-    .q-block:focus-within { border-color: #e8829e; }
-    .q-label { font-family: 'Playfair Display', serif; font-size: 15px; color: #7a2a45; font-weight: 400; margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
-    .q-required { color: #e8829e; }
+    /* ── FORM BODY ── */
+    .form-body {
+      padding: 1.75rem 1.75rem 2rem;
+    }
 
-    .field { width: 100%; border: 1px solid #f4c2d0; border-radius: 10px; padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: #5a2535; background: #fff9fb; outline: none; transition: border-color 0.2s, background 0.2s; }
-    .field:focus { border-color: #e8829e; background: #fff; }
-    textarea.field { resize: vertical; min-height: 90px; }
+    /* ── PROGRESS BAR ── */
+    .progress-wrap {
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
 
-    .rating-grid { display: flex; gap: 6px; flex-wrap: wrap; }
-    .rating-btn { width: 46px; height: 46px; border-radius: 10px; border: 1.5px solid #f4c2d0; background: #fff9fb; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: #b06882; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
-    .rating-btn:hover { border-color: #e8829e; background: #fce4ec; color: #7a2a45; }
-    .rating-btn.selected { background: #e8829e; border-color: #e8829e; color: #fff; }
-    .rating-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: #c26180; font-weight: 300; }
+    .progress-label {
+      font-size: 12px;
+      color: #c26180;
+      font-weight: 500;
+    }
 
-    .radio-group { display: flex; flex-direction: column; gap: 10px; }
-    .radio-option { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1.5px solid #f4c2d0; border-radius: 12px; cursor: pointer; background: #fff9fb; transition: all 0.15s; user-select: none; }
-    .radio-option:hover { border-color: #e8829e; background: #fce4ec; }
-    .radio-option.selected { border-color: #e8829e; background: #fce4ec; }
-    .radio-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #f4c2d0; background: #fff; flex-shrink: 0; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
-    .radio-option.selected .radio-dot { border-color: #e8829e; background: #e8829e; }
-    .radio-option.selected .radio-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; display: block; }
-    .radio-text { font-size: 14px; color: #7a2a45; line-height: 1.3; flex: 1; }
-    .radio-emoji { font-size: 18px; }
+    .progress-track {
+      height: 4px;
+      background: #fce4ec;
+      border-radius: 99px;
+      overflow: hidden;
+    }
 
-    .suggestion-box { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.4s ease, opacity 0.35s ease, margin-top 0.3s ease; margin-top: 0; }
-    .suggestion-box.visible { max-height: 200px; opacity: 1; margin-top: 14px; }
-    .suggestion-inner { background: #fff4f7; border: 1.5px dashed #f4a7be; border-radius: 12px; padding: 14px; }
-    .suggestion-inner label { display: block; font-family: 'Playfair Display', serif; font-size: 13px; color: #c26180; margin-bottom: 8px; }
+    .progress-fill {
+      height: 100%;
+      background: #e8829e;
+      border-radius: 99px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
 
-    .error-msg { font-size: 12px; color: #c0392b; margin-top: 6px; display: none; }
+    /* ── QUESTION BLOCK ── */
+    .q-block {
+      border: 1px solid #f4c2d0;
+      border-radius: 16px;
+      padding: 1.4rem 1.5rem;
+      margin-bottom: 1.25rem;
+      transition: border-color 0.2s;
+    }
 
-    .divider { text-align: center; font-size: 18px; color: #f4a7be; letter-spacing: 8px; margin: 1.5rem 0 1rem; }
+    .q-block:focus-within {
+      border-color: #e8829e;
+    }
 
-    .submit-btn { width: 100%; background: #e8829e; color: #fff; border: none; border-radius: 12px; padding: 15px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; letter-spacing: 0.02em; transition: background 0.2s, transform 0.1s; }
-    .submit-btn:hover { background: #d96f8b; }
-    .submit-btn:active { transform: scale(0.98); }
+    .q-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      color: #7a2a45;
+      font-weight: 400;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      line-height: 1.4;
+    }
 
-    .thank-you { display: none; flex-direction: column; align-items: center; text-align: center; padding: 3.5rem 2rem 3rem; gap: 1rem; }
-    .thank-icon { width: 80px; height: 80px; background: #fce4ec; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; }
-    .thank-title { font-family: 'Playfair Display', serif; font-size: 24px; color: #7a2a45; }
-    .thank-sub { font-size: 14px; color: #b06882; max-width: 300px; line-height: 1.6; }
+    .q-required {
+      color: #e8829e;
+    }
 
-    .form-footer { text-align: center; font-size: 11px; color: #d4a0b0; padding: 0 1.75rem 1.5rem; }
+    /* ── INPUTS ── */
+    .field {
+      width: 100%;
+      border: 1px solid #f4c2d0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: #5a2535;
+      background: #fff9fb;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
 
+    .field:focus {
+      border-color: #e8829e;
+      background: #fff;
+    }
+
+    textarea.field {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    /* ── RATING BUTTONS ── */
+    .rating-grid {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .rating-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      border: 1.5px solid #f4c2d0;
+      background: #fff9fb;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #b06882;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rating-btn:hover {
+      border-color: #e8829e;
+      background: #fce4ec;
+      color: #7a2a45;
+    }
+
+    .rating-btn.selected {
+      background: #e8829e;
+      border-color: #e8829e;
+      color: #fff;
+    }
+
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 11px;
+      color: #c26180;
+      font-weight: 300;
+    }
+
+    /* ── RADIO OPTIONS ── */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1.5px solid #f4c2d0;
+      border-radius: 12px;
+      cursor: pointer;
+      background: #fff9fb;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .radio-option:hover {
+      border-color: #e8829e;
+      background: #fce4ec;
+    }
+
+    .radio-option.selected {
+      border-color: #e8829e;
+      background: #fce4ec;
+    }
+
+    .radio-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #f4c2d0;
+      background: #fff;
+      flex-shrink: 0;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radio-option.selected .radio-dot {
+      border-color: #e8829e;
+      background: #e8829e;
+    }
+
+    .radio-option.selected .radio-dot::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+      display: block;
+    }
+
+    .radio-text {
+      font-size: 14px;
+      color: #7a2a45;
+      line-height: 1.3;
+      flex: 1;
+    }
+
+    .radio-emoji {
+      font-size: 18px;
+    }
+
+    /* ── SUGGESTION BOX (condicional) ── */
+    .suggestion-box {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.35s ease, margin-top 0.3s ease;
+      margin-top: 0;
+    }
+
+    .suggestion-box.visible {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 14px;
+    }
+
+    .suggestion-inner {
+      background: #fff4f7;
+      border: 1.5px dashed #f4a7be;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .suggestion-inner label {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 13px;
+      color: #c26180;
+      margin-bottom: 8px;
+    }
+
+    /* ── FEEDBACK DE ENVIO ── */
+    .submit-feedback {
+      display: none;
+      font-size: 13px;
+      color: #c0392b;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* ── ERRO ── */
+    .error-msg {
+      font-size: 12px;
+      color: #c0392b;
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      text-align: center;
+      font-size: 18px;
+      color: #f4a7be;
+      letter-spacing: 8px;
+      margin: 1.5rem 0 1rem;
+    }
+
+    /* ── BOTÃO ENVIAR ── */
+    .submit-btn {
+      width: 100%;
+      background: #e8829e;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background: #d96f8b;
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* ── TELA DE AGRADECIMENTO ── */
+    .thank-you {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 3.5rem 2rem 3rem;
+      gap: 1rem;
+    }
+
+    .thank-icon {
+      width: 80px;
+      height: 80px;
+      background: #fce4ec;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+
+    .thank-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: #7a2a45;
+    }
+
+    .thank-sub {
+      font-size: 14px;
+      color: #b06882;
+      max-width: 300px;
+      line-height: 1.6;
+    }
+
+    /* ── RODAPÉ ── */
+    .form-footer {
+      text-align: center;
+      font-size: 11px;
+      color: #d4a0b0;
+      padding: 0 1.75rem 1.5rem;
+    }
+
+    /* ── RESPONSIVO ── */
     @media (max-width: 480px) {
-      body { padding: 0; }
-      .card { border-radius: 0; box-shadow: none; min-height: 100vh; }
-      .rating-btn { width: 40px; height: 40px; font-size: 13px; }
+      body {
+        padding: 0;
+      }
+
+      .card {
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+      }
+
+      .rating-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 13px;
+      }
     }
   </style>
 </head>
@@ -105,8 +452,12 @@
 
 <div class="card">
 
+  <!-- ── HERO ── -->
   <div class="hero">
-    <img src="https://images.unsplash.com/photo-1612203985729-70726954388c?w=800&auto=format&fit=crop&q=80" alt="Confeitaria" />
+    <img
+      src="https://images.unsplash.com/photo-1612203985729-70726954388c?w=800&auto=format&fit=crop&q=80"
+      alt="Foto de doces da confeitaria"
+    />
     <div class="hero-overlay">
       <span class="brand-badge">✦ Pesquisa de Satisfação ✦</span>
       <h1 class="hero-title">Como foi sua experiência?</h1>
@@ -114,9 +465,11 @@
     </div>
   </div>
 
+  <!-- ── FORMULÁRIO ── -->
   <div id="formWrap">
     <div class="form-body">
 
+      <!-- Barra de progresso -->
       <div class="progress-wrap">
         <span class="progress-label" id="progressLabel">0 de 4 perguntas respondidas</span>
         <div class="progress-track">
@@ -124,54 +477,89 @@
         </div>
       </div>
 
+      <!-- Q1: Nome -->
       <div class="q-block">
-        <p class="q-label">🌸 Informe seu nome <span class="q-required">*</span></p>
-        <input class="field" type="text" id="nome" placeholder="Seu nome completo" />
+        <p class="q-label">
+          🌸 Informe seu nome
+          <span class="q-required">*</span>
+        </p>
+        <input
+          class="field"
+          type="text"
+          id="nome"
+          placeholder="Seu nome completo"
+          autocomplete="name"
+        />
         <p class="error-msg" id="erroNome">Por favor, informe seu nome.</p>
       </div>
 
+      <!-- Q2: Nota de satisfação -->
       <div class="q-block">
-        <p class="q-label">🍬 De 0 a 10, qual sua satisfação de compras com os nossos doces? <span class="q-required">*</span></p>
+        <p class="q-label">
+          🍬 De 0 a 10, qual sua satisfação de compras com os nossos doces?
+          <span class="q-required">*</span>
+        </p>
         <div class="rating-grid" id="ratingGrid"></div>
-        <div class="rating-labels"><span>Muito insatisfeito</span><span>Muito satisfeito</span></div>
+        <div class="rating-labels">
+          <span>Muito insatisfeito</span>
+          <span>Muito satisfeito</span>
+        </div>
         <p class="error-msg" id="erroNota">Por favor, selecione uma nota.</p>
       </div>
 
+      <!-- Q3: Experiência -->
       <div class="q-block">
-        <p class="q-label">💬 Como foi sua experiência com os nossos doces? <span class="q-required">*</span></p>
-        <textarea class="field" id="experiencia" placeholder="Conte-nos sobre sua experiência com nossos doces..."></textarea>
+        <p class="q-label">
+          💬 Como foi sua experiência com os nossos doces?
+          <span class="q-required">*</span>
+        </p>
+        <textarea
+          class="field"
+          id="experiencia"
+          placeholder="Conte-nos sobre sua experiência com nossos doces..."
+        ></textarea>
         <p class="error-msg" id="erroExp">Por favor, descreva sua experiência.</p>
       </div>
 
+      <!-- Q4: Indicação -->
       <div class="q-block">
-        <p class="q-label">💝 Você indicaria nossos doces para outra pessoa? <span class="q-required">*</span></p>
+        <p class="q-label">
+          💝 Você indicaria nossos doces para outra pessoa?
+          <span class="q-required">*</span>
+        </p>
+
         <div class="radio-group">
-          <div class="radio-option" data-value="sim" onclick="selectRadio(this)">
+          <div class="radio-option" data-value="Sim, com certeza!" onclick="selectRadio(this)">
             <div class="radio-dot"></div>
             <span class="radio-text">Sim, com certeza!</span>
             <span class="radio-emoji">🥰</span>
           </div>
-          <div class="radio-option" data-value="nao" onclick="selectRadio(this)">
+          <div class="radio-option" data-value="Não indicaria" onclick="selectRadio(this)">
             <div class="radio-dot"></div>
             <span class="radio-text">Não indicaria</span>
             <span class="radio-emoji">😔</span>
           </div>
-          <div class="radio-option" data-value="ressalvas" onclick="selectRadio(this)">
+          <div class="radio-option" data-value="Indicaria, mas com ressalvas" onclick="selectRadio(this)">
             <div class="radio-dot"></div>
             <span class="radio-text">Indicaria, mas com ressalvas</span>
             <span class="radio-emoji">🤔</span>
           </div>
-          <div class="radio-option" data-value="mudancas" onclick="selectRadio(this)">
+          <div class="radio-option" data-value="Indicaria depois de algumas melhorias" onclick="selectRadio(this)">
             <div class="radio-dot"></div>
             <span class="radio-text">Indicaria depois de algumas melhorias</span>
             <span class="radio-emoji">✨</span>
           </div>
         </div>
 
+        <!-- Caixinha de sugestões — aparece para ressalvas ou melhorias -->
         <div class="suggestion-box" id="suggestionBox">
           <div class="suggestion-inner">
             <label for="sugestao">🍰 O que podemos melhorar para você?</label>
-            <textarea class="field" id="sugestao" placeholder="Compartilhe suas sugestões, adoramos ouvir você..."></textarea>
+            <textarea
+              class="field"
+              id="sugestao"
+              placeholder="Compartilhe suas sugestões, adoramos ouvir você..."
+            ></textarea>
           </div>
         </div>
 
@@ -179,78 +567,168 @@
       </div>
 
       <div class="divider">🍰 🌸 🍭</div>
-      <button class="submit-btn" onclick="submitForm()">Enviar avaliação</button>
+
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+        Enviar avaliação
+      </button>
+
+      <p class="submit-feedback" id="submitFeedback">
+        Não foi possível enviar. Tente novamente.
+      </p>
 
     </div>
+
     <p class="form-footer">Seus dados são tratados com segurança e carinho 🎀</p>
   </div>
 
+  <!-- ── TELA DE AGRADECIMENTO ── -->
   <div class="thank-you" id="thankYou">
     <div class="thank-icon">🎀</div>
     <h2 class="thank-title">Muito obrigado!</h2>
-    <p class="thank-sub">Sua avaliação foi recebida com muito carinho. Você nos inspira a criar momentos ainda mais especiais.</p>
+    <p class="thank-sub">
+      Sua avaliação foi recebida com muito carinho.
+      Você nos inspira a criar momentos ainda mais especiais.
+    </p>
     <div class="divider">🍰 🌸 🍭</div>
   </div>
 
 </div>
 
 <script>
+  /**
+   * ─────────────────────────────────────────────
+   *  CONFIGURAÇÃO — substitua pela URL gerada
+   *  no Google Apps Script após a implantação.
+   *  Veja o README para instruções passo a passo.
+   * ─────────────────────────────────────────────
+   */
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8UaHA6CAAAizHZ7zztGVHT44Rd5qgWuYJYN6IsAX3XN6idJyvz2iTI1ek775hepDj/exec';
+
+  /* ── Estado do formulário ── */
   let selectedRating = null;
   let selectedIndicar = null;
 
-  const grid = document.getElementById('ratingGrid');
+  /* ── Gera botões de nota (0–10) ── */
+  const ratingGrid = document.getElementById('ratingGrid');
+
   for (let i = 0; i <= 10; i++) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'rating-btn';
     btn.textContent = i;
+    btn.setAttribute('aria-label', `Nota ${i}`);
+
     btn.addEventListener('click', () => {
       document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       selectedRating = i;
       updateProgress();
     });
-    grid.appendChild(btn);
+
+    ratingGrid.appendChild(btn);
   }
 
+  /* ── Seleciona opção de indicação ── */
   function selectRadio(el) {
     document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     selectedIndicar = el.dataset.value;
+
     const box = document.getElementById('suggestionBox');
-    if (selectedIndicar === 'ressalvas' || selectedIndicar === 'mudancas') {
+    const mostrarSugestao =
+      selectedIndicar === 'Indicaria, mas com ressalvas' ||
+      selectedIndicar === 'Indicaria depois de algumas melhorias';
+
+    if (mostrarSugestao) {
       box.classList.add('visible');
       setTimeout(() => document.getElementById('sugestao').focus(), 350);
     } else {
       box.classList.remove('visible');
       document.getElementById('sugestao').value = '';
     }
+
     updateProgress();
   }
 
+  /* ── Atualiza barra de progresso ── */
   function updateProgress() {
     let filled = 0;
     if (document.getElementById('nome').value.trim()) filled++;
     if (selectedRating !== null) filled++;
     if (document.getElementById('experiencia').value.trim()) filled++;
     if (selectedIndicar) filled++;
-    document.getElementById('progressFill').style.width = Math.round((filled / 4) * 100) + '%';
-    document.getElementById('progressLabel').textContent = filled + ' de 4 perguntas respondidas';
+
+    const pct = Math.round((filled / 4) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent =
+      filled + ' de 4 perguntas respondidas';
   }
 
   document.getElementById('nome').addEventListener('input', updateProgress);
   document.getElementById('experiencia').addEventListener('input', updateProgress);
 
-  function submitForm() {
-    let valid = true;
-    document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
-    if (!document.getElementById('nome').value.trim()) { document.getElementById('erroNome').style.display = 'block'; valid = false; }
-    if (selectedRating === null) { document.getElementById('erroNota').style.display = 'block'; valid = false; }
-    if (!document.getElementById('experiencia').value.trim()) { document.getElementById('erroExp').style.display = 'block'; valid = false; }
-    if (!selectedIndicar) { document.getElementById('erroIndicar').style.display = 'block'; valid = false; }
-    if (!valid) return;
-    document.getElementById('formWrap').style.display = 'none';
-    document.getElementById('thankYou').style.display = 'flex';
+  /* ── Valida campos obrigatórios ── */
+  function validar() {
+    let valido = true;
+    document.querySelectorAll('.error-msg').forEach(e => (e.style.display = 'none'));
+
+    if (!document.getElementById('nome').value.trim()) {
+      document.getElementById('erroNome').style.display = 'block';
+      valido = false;
+    }
+    if (selectedRating === null) {
+      document.getElementById('erroNota').style.display = 'block';
+      valido = false;
+    }
+    if (!document.getElementById('experiencia').value.trim()) {
+      document.getElementById('erroExp').style.display = 'block';
+      valido = false;
+    }
+    if (!selectedIndicar) {
+      document.getElementById('erroIndicar').style.display = 'block';
+      valido = false;
+    }
+
+    return valido;
+  }
+
+  /* ── Envia para o Google Sheets via Apps Script ── */
+  async function submitForm() {
+    if (!validar()) return;
+
+    const btn = document.getElementById('submitBtn');
+    const feedback = document.getElementById('submitFeedback');
+
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+    feedback.style.display = 'none';
+
+    const payload = {
+      nome:        document.getElementById('nome').value.trim(),
+      nota:        selectedRating,
+      experiencia: document.getElementById('experiencia').value.trim(),
+      indicaria:   selectedIndicar,
+      sugestoes:   document.getElementById('sugestao').value.trim(),
+    };
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors', // necessário para Apps Script
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      /* Exibe tela de agradecimento */
+      document.getElementById('formWrap').style.display = 'none';
+      document.getElementById('thankYou').style.display = 'flex';
+
+    } catch (err) {
+      console.error('Erro ao enviar:', err);
+      btn.textContent = 'Enviar avaliação';
+      btn.disabled = false;
+      feedback.style.display = 'block';
+    }
   }
 </script>
 
