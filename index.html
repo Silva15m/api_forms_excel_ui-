@@ -1,181 +1,257 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback Sweet Shop</title>
-    <style>
-        :root {
-            --sweet-pink: #F7C8D0;
-            --dark-pink: #E8AAB5;
-            --bg-white: #FFFFFF;
-            --text-gray: #5D5D5D;
-            --soft-shadow: 0 8px 30px rgba(0,0,0,0.05);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesquisa de Satisfação — Confeitaria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #FFF9FA;
-            color: var(--text-gray);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #fdf0f4;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 1rem 4rem;
+    }
 
-        .form-card {
-            background: var(--bg-white);
-            max-width: 500px;
-            width: 100%;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: var(--soft-shadow);
-        }
+    .card {
+      background: #fff;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(200, 80, 120, 0.12);
+    }
 
-        .header-banner {
-            background-color: var(--sweet-pink);
-            padding: 40px 20px;
-            text-align: center;
-            color: white;
-        }
+    .hero { position: relative; width: 100%; height: 240px; overflow: hidden; background: #f9d6df; }
+    .hero img { width: 100%; height: 100%; object-fit: cover; opacity: 0.82; display: block; }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(249,214,223,0.2) 0%, rgba(255,255,255,0.96) 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 1.75rem;
+    }
+    .brand-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1.5px solid #f4a7be; border-radius: 50px; padding: 5px 18px; margin-bottom: 0.75rem;
+      font-family: 'Playfair Display', serif; font-size: 12px; color: #c26180; letter-spacing: 0.05em;
+    }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: #7a2a45; text-align: center; line-height: 1.2; }
+    .hero-sub { font-size: 13px; color: #b06882; text-align: center; margin-top: 5px; font-weight: 300; }
 
-        .app-screenshot {
-            width: 85%;
-            max-width: 300px;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(232, 170, 181, 0.4);
-            border: 5px solid white;
-            margin-top: 20px;
-        }
+    .form-body { padding: 1.75rem 1.75rem 2rem; }
 
-        .form-body {
-            padding: 35px;
-        }
+    .progress-wrap { margin-bottom: 2rem; display: flex; flex-direction: column; gap: 6px; }
+    .progress-label { font-size: 12px; color: #c26180; font-weight: 500; }
+    .progress-track { height: 4px; background: #fce4ec; border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; background: #e8829e; border-radius: 99px; transition: width 0.5s ease; width: 0%; }
 
-        h2 {
-            color: var(--dark-pink);
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            text-align: center;
-        }
+    .q-block { border: 1px solid #f4c2d0; border-radius: 16px; padding: 1.4rem 1.5rem; margin-bottom: 1.25rem; transition: border-color 0.2s; }
+    .q-block:focus-within { border-color: #e8829e; }
+    .q-label { font-family: 'Playfair Display', serif; font-size: 15px; color: #7a2a45; font-weight: 400; margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4; }
+    .q-required { color: #e8829e; }
 
-        .question-label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
+    .field { width: 100%; border: 1px solid #f4c2d0; border-radius: 10px; padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: #5a2535; background: #fff9fb; outline: none; transition: border-color 0.2s, background 0.2s; }
+    .field:focus { border-color: #e8829e; background: #fff; }
+    textarea.field { resize: vertical; min-height: 90px; }
 
-        /* Opções Estilizadas */
-        .option-item {
-            display: block;
-            position: relative;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
+    .rating-grid { display: flex; gap: 6px; flex-wrap: wrap; }
+    .rating-btn { width: 46px; height: 46px; border-radius: 10px; border: 1.5px solid #f4c2d0; background: #fff9fb; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: #b06882; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+    .rating-btn:hover { border-color: #e8829e; background: #fce4ec; color: #7a2a45; }
+    .rating-btn.selected { background: #e8829e; border-color: #e8829e; color: #fff; }
+    .rating-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: #c26180; font-weight: 300; }
 
-        .option-item input {
-            position: absolute;
-            opacity: 0;
-        }
+    .radio-group { display: flex; flex-direction: column; gap: 10px; }
+    .radio-option { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1.5px solid #f4c2d0; border-radius: 12px; cursor: pointer; background: #fff9fb; transition: all 0.15s; user-select: none; }
+    .radio-option:hover { border-color: #e8829e; background: #fce4ec; }
+    .radio-option.selected { border-color: #e8829e; background: #fce4ec; }
+    .radio-dot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #f4c2d0; background: #fff; flex-shrink: 0; transition: all 0.15s; display: flex; align-items: center; justify-content: center; }
+    .radio-option.selected .radio-dot { border-color: #e8829e; background: #e8829e; }
+    .radio-option.selected .radio-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; display: block; }
+    .radio-text { font-size: 14px; color: #7a2a45; line-height: 1.3; flex: 1; }
+    .radio-emoji { font-size: 18px; }
 
-        .option-content {
-            padding: 16px 20px;
-            border: 2px solid #F1F1F1;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
+    .suggestion-box { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 0.4s ease, opacity 0.35s ease, margin-top 0.3s ease; margin-top: 0; }
+    .suggestion-box.visible { max-height: 200px; opacity: 1; margin-top: 14px; }
+    .suggestion-inner { background: #fff4f7; border: 1.5px dashed #f4a7be; border-radius: 12px; padding: 14px; }
+    .suggestion-inner label { display: block; font-family: 'Playfair Display', serif; font-size: 13px; color: #c26180; margin-bottom: 8px; }
 
-        .option-item:hover .option-content {
-            border-color: var(--sweet-pink);
-            background-color: #FFF5F6;
-        }
+    .error-msg { font-size: 12px; color: #c0392b; margin-top: 6px; display: none; }
 
-        .option-item input:checked + .option-content {
-            border-color: var(--dark-pink);
-            background-color: var(--sweet-pink);
-            color: white;
-        }
+    .divider { text-align: center; font-size: 18px; color: #f4a7be; letter-spacing: 8px; margin: 1.5rem 0 1rem; }
 
-        .btn-submit {
-            width: 100%;
-            background-color: var(--dark-pink);
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 25px;
-            transition: background 0.3s;
-        }
+    .submit-btn { width: 100%; background: #e8829e; color: #fff; border: none; border-radius: 12px; padding: 15px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; letter-spacing: 0.02em; transition: background 0.2s, transform 0.1s; }
+    .submit-btn:hover { background: #d96f8b; }
+    .submit-btn:active { transform: scale(0.98); }
 
-        .btn-submit:hover {
-            background-color: #D694A0;
-        }
+    .thank-you { display: none; flex-direction: column; align-items: center; text-align: center; padding: 3.5rem 2rem 3rem; gap: 1rem; }
+    .thank-icon { width: 80px; height: 80px; background: #fce4ec; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; }
+    .thank-title { font-family: 'Playfair Display', serif; font-size: 24px; color: #7a2a45; }
+    .thank-sub { font-size: 14px; color: #b06882; max-width: 300px; line-height: 1.6; }
 
-        .footer-note {
-            text-align: center;
-            font-size: 0.8rem;
-            margin-top: 20px;
-            color: #BBB;
-        }
-    </style>
+    .form-footer { text-align: center; font-size: 11px; color: #d4a0b0; padding: 0 1.75rem 1.5rem; }
+
+    @media (max-width: 480px) {
+      body { padding: 0; }
+      .card { border-radius: 0; box-shadow: none; min-height: 100vh; }
+      .rating-btn { width: 40px; height: 40px; font-size: 13px; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="form-card">
-    <div class="header-banner">
-        <h1 style="margin:0; font-size: 1.8rem; letter-spacing: 1px;">Sua Doce Opinião</h1>
-        <p style="font-size: 0.9rem; opacity: 0.9;">Nos ajude a tornar seu dia mais saboroso</p>
-        
-        <img src="https://via.placeholder.com/300x500/FFFFFF/E8AAB5?text=Preview+do+App" alt="Interface da Confeitaria" class="app-screenshot">
-    </div>
+<div class="card">
 
+  <div class="hero">
+    <img src="https://images.unsplash.com/photo-1612203985729-70726954388c?w=800&auto=format&fit=crop&q=80" alt="Confeitaria" />
+    <div class="hero-overlay">
+      <span class="brand-badge">✦ Pesquisa de Satisfação ✦</span>
+      <h1 class="hero-title">Como foi sua experiência?</h1>
+      <p class="hero-sub">Sua opinião é o ingrediente mais importante</p>
+    </div>
+  </div>
+
+  <div id="formWrap">
     <div class="form-body">
-        <form id="confeitariaForm">
-            <span class="question-label">Você indicaria o nosso aplicativo para um amigo?</span>
 
-            <label class="option-item">
-                <input type="radio" name="indicacao" value="sim">
-                <div class="option-content">Com certeza! ✨</div>
-            </label>
+      <div class="progress-wrap">
+        <span class="progress-label" id="progressLabel">0 de 4 perguntas respondidas</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
 
-            <label class="option-item">
-                <input type="radio" name="indicacao" value="ressalvas">
-                <div class="option-content">Indicaria, mas tenho sugestões</div>
-            </label>
+      <div class="q-block">
+        <p class="q-label">🌸 Informe seu nome <span class="q-required">*</span></p>
+        <input class="field" type="text" id="nome" placeholder="Seu nome completo" />
+        <p class="error-msg" id="erroNome">Por favor, informe seu nome.</p>
+      </div>
 
-            <label class="option-item">
-                <input type="radio" name="indicacao" value="mudancas">
-                <div class="option-content">Após algumas melhorias</div>
-            </label>
+      <div class="q-block">
+        <p class="q-label">🍬 De 0 a 10, qual sua satisfação de compras com os nossos doces? <span class="q-required">*</span></p>
+        <div class="rating-grid" id="ratingGrid"></div>
+        <div class="rating-labels"><span>Muito insatisfeito</span><span>Muito satisfeito</span></div>
+        <p class="error-msg" id="erroNota">Por favor, selecione uma nota.</p>
+      </div>
 
-            <label class="option-item">
-                <input type="radio" name="indicacao" value="nao">
-                <div class="option-content">Ainda não indicaria</div>
-            </label>
+      <div class="q-block">
+        <p class="q-label">💬 Como foi sua experiência com os nossos doces? <span class="q-required">*</span></p>
+        <textarea class="field" id="experiencia" placeholder="Conte-nos sobre sua experiência com nossos doces..."></textarea>
+        <p class="error-msg" id="erroExp">Por favor, descreva sua experiência.</p>
+      </div>
 
-            <button type="submit" class="btn-submit">Enviar com Carinho</button>
-        </form>
-        <p class="footer-note">Feito para os amantes de açúcar ♡</p>
+      <div class="q-block">
+        <p class="q-label">💝 Você indicaria nossos doces para outra pessoa? <span class="q-required">*</span></p>
+        <div class="radio-group">
+          <div class="radio-option" data-value="sim" onclick="selectRadio(this)">
+            <div class="radio-dot"></div>
+            <span class="radio-text">Sim, com certeza!</span>
+            <span class="radio-emoji">🥰</span>
+          </div>
+          <div class="radio-option" data-value="nao" onclick="selectRadio(this)">
+            <div class="radio-dot"></div>
+            <span class="radio-text">Não indicaria</span>
+            <span class="radio-emoji">😔</span>
+          </div>
+          <div class="radio-option" data-value="ressalvas" onclick="selectRadio(this)">
+            <div class="radio-dot"></div>
+            <span class="radio-text">Indicaria, mas com ressalvas</span>
+            <span class="radio-emoji">🤔</span>
+          </div>
+          <div class="radio-option" data-value="mudancas" onclick="selectRadio(this)">
+            <div class="radio-dot"></div>
+            <span class="radio-text">Indicaria depois de algumas melhorias</span>
+            <span class="radio-emoji">✨</span>
+          </div>
+        </div>
+
+        <div class="suggestion-box" id="suggestionBox">
+          <div class="suggestion-inner">
+            <label for="sugestao">🍰 O que podemos melhorar para você?</label>
+            <textarea class="field" id="sugestao" placeholder="Compartilhe suas sugestões, adoramos ouvir você..."></textarea>
+          </div>
+        </div>
+
+        <p class="error-msg" id="erroIndicar">Por favor, selecione uma opção.</p>
+      </div>
+
+      <div class="divider">🍰 🌸 🍭</div>
+      <button class="submit-btn" onclick="submitForm()">Enviar avaliação</button>
+
     </div>
+    <p class="form-footer">Seus dados são tratados com segurança e carinho 🎀</p>
+  </div>
+
+  <div class="thank-you" id="thankYou">
+    <div class="thank-icon">🎀</div>
+    <h2 class="thank-title">Muito obrigado!</h2>
+    <p class="thank-sub">Sua avaliação foi recebida com muito carinho. Você nos inspira a criar momentos ainda mais especiais.</p>
+    <div class="divider">🍰 🌸 🍭</div>
+  </div>
+
 </div>
 
 <script>
-    document.getElementById('confeitariaForm').onsubmit = function(e) {
-        e.preventDefault();
-        const selected = document.querySelector('input[name="indicacao"]:checked');
-        if (selected) {
-            alert('Agradecemos seu feedback! Ele é o ingrediente principal do nosso sucesso. 🍰');
-        } else {
-            alert('Escolha uma opção para podermos melhorar!');
-        }
+  let selectedRating = null;
+  let selectedIndicar = null;
+
+  const grid = document.getElementById('ratingGrid');
+  for (let i = 0; i <= 10; i++) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'rating-btn';
+    btn.textContent = i;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedRating = i;
+      updateProgress();
+    });
+    grid.appendChild(btn);
+  }
+
+  function selectRadio(el) {
+    document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedIndicar = el.dataset.value;
+    const box = document.getElementById('suggestionBox');
+    if (selectedIndicar === 'ressalvas' || selectedIndicar === 'mudancas') {
+      box.classList.add('visible');
+      setTimeout(() => document.getElementById('sugestao').focus(), 350);
+    } else {
+      box.classList.remove('visible');
+      document.getElementById('sugestao').value = '';
     }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    let filled = 0;
+    if (document.getElementById('nome').value.trim()) filled++;
+    if (selectedRating !== null) filled++;
+    if (document.getElementById('experiencia').value.trim()) filled++;
+    if (selectedIndicar) filled++;
+    document.getElementById('progressFill').style.width = Math.round((filled / 4) * 100) + '%';
+    document.getElementById('progressLabel').textContent = filled + ' de 4 perguntas respondidas';
+  }
+
+  document.getElementById('nome').addEventListener('input', updateProgress);
+  document.getElementById('experiencia').addEventListener('input', updateProgress);
+
+  function submitForm() {
+    let valid = true;
+    document.querySelectorAll('.error-msg').forEach(e => e.style.display = 'none');
+    if (!document.getElementById('nome').value.trim()) { document.getElementById('erroNome').style.display = 'block'; valid = false; }
+    if (selectedRating === null) { document.getElementById('erroNota').style.display = 'block'; valid = false; }
+    if (!document.getElementById('experiencia').value.trim()) { document.getElementById('erroExp').style.display = 'block'; valid = false; }
+    if (!selectedIndicar) { document.getElementById('erroIndicar').style.display = 'block'; valid = false; }
+    if (!valid) return;
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('thankYou').style.display = 'flex';
+  }
 </script>
 
 </body>
