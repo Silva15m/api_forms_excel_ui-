@@ -301,7 +301,7 @@
       font-size: 18px;
     }
 
-    /* ── SUGGESTION BOX (condicional) ── */
+    /* ── SUGGESTION BOX ── */
     .suggestion-box {
       overflow: hidden;
       max-height: 0;
@@ -331,6 +331,14 @@
       margin-bottom: 8px;
     }
 
+    /* ── ERRO ── */
+    .error-msg {
+      font-size: 12px;
+      color: #c0392b;
+      margin-top: 6px;
+      display: none;
+    }
+
     /* ── FEEDBACK DE ENVIO ── */
     .submit-feedback {
       display: none;
@@ -338,14 +346,6 @@
       color: #c0392b;
       text-align: center;
       margin-top: 10px;
-    }
-
-    /* ── ERRO ── */
-    .error-msg {
-      font-size: 12px;
-      color: #c0392b;
-      margin-top: 6px;
-      display: none;
     }
 
     /* ── DIVIDER ── */
@@ -373,18 +373,9 @@
       transition: background 0.2s, transform 0.1s;
     }
 
-    .submit-btn:hover:not(:disabled) {
-      background: #d96f8b;
-    }
-
-    .submit-btn:active:not(:disabled) {
-      transform: scale(0.98);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
+    .submit-btn:hover:not(:disabled) { background: #d96f8b; }
+    .submit-btn:active:not(:disabled) { transform: scale(0.98); }
+    .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
 
     /* ── TELA DE AGRADECIMENTO ── */
     .thank-you {
@@ -430,21 +421,9 @@
 
     /* ── RESPONSIVO ── */
     @media (max-width: 480px) {
-      body {
-        padding: 0;
-      }
-
-      .card {
-        border-radius: 0;
-        box-shadow: none;
-        min-height: 100vh;
-      }
-
-      .rating-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 13px;
-      }
+      body { padding: 0; }
+      .card { border-radius: 0; box-shadow: none; min-height: 100vh; }
+      .rating-btn { width: 40px; height: 40px; font-size: 13px; }
     }
   </style>
 </head>
@@ -479,26 +458,14 @@
 
       <!-- Q1: Nome -->
       <div class="q-block">
-        <p class="q-label">
-          🌸 Informe seu nome
-          <span class="q-required">*</span>
-        </p>
-        <input
-          class="field"
-          type="text"
-          id="nome"
-          placeholder="Seu nome completo"
-          autocomplete="name"
-        />
+        <p class="q-label">🌸 Informe seu nome <span class="q-required">*</span></p>
+        <input class="field" type="text" id="nome" placeholder="Seu nome completo" autocomplete="name" />
         <p class="error-msg" id="erroNome">Por favor, informe seu nome.</p>
       </div>
 
-      <!-- Q2: Nota de satisfação -->
+      <!-- Q2: Nota -->
       <div class="q-block">
-        <p class="q-label">
-          🍬 De 0 a 10, qual sua satisfação de compras com os nossos doces?
-          <span class="q-required">*</span>
-        </p>
+        <p class="q-label">🍬 De 0 a 10, qual sua satisfação de compras com os nossos doces? <span class="q-required">*</span></p>
         <div class="rating-grid" id="ratingGrid"></div>
         <div class="rating-labels">
           <span>Muito insatisfeito</span>
@@ -509,24 +476,14 @@
 
       <!-- Q3: Experiência -->
       <div class="q-block">
-        <p class="q-label">
-          💬 Como foi sua experiência com os nossos doces?
-          <span class="q-required">*</span>
-        </p>
-        <textarea
-          class="field"
-          id="experiencia"
-          placeholder="Conte-nos sobre sua experiência com nossos doces..."
-        ></textarea>
+        <p class="q-label">💬 Como foi sua experiência com os nossos doces? <span class="q-required">*</span></p>
+        <textarea class="field" id="experiencia" placeholder="Conte-nos sobre sua experiência com nossos doces..."></textarea>
         <p class="error-msg" id="erroExp">Por favor, descreva sua experiência.</p>
       </div>
 
       <!-- Q4: Indicação -->
       <div class="q-block">
-        <p class="q-label">
-          💝 Você indicaria nossos doces para outra pessoa?
-          <span class="q-required">*</span>
-        </p>
+        <p class="q-label">💝 Você indicaria nossos doces para outra pessoa? <span class="q-required">*</span></p>
 
         <div class="radio-group">
           <div class="radio-option" data-value="Sim, com certeza!" onclick="selectRadio(this)">
@@ -551,15 +508,11 @@
           </div>
         </div>
 
-        <!-- Caixinha de sugestões — aparece para ressalvas ou melhorias -->
+        <!-- Caixinha de sugestões condicional -->
         <div class="suggestion-box" id="suggestionBox">
           <div class="suggestion-inner">
             <label for="sugestao">🍰 O que podemos melhorar para você?</label>
-            <textarea
-              class="field"
-              id="sugestao"
-              placeholder="Compartilhe suas sugestões, adoramos ouvir você..."
-            ></textarea>
+            <textarea class="field" id="sugestao" placeholder="Compartilhe suas sugestões, adoramos ouvir você..."></textarea>
           </div>
         </div>
 
@@ -577,7 +530,6 @@
       </p>
 
     </div>
-
     <p class="form-footer">Seus dados são tratados com segurança e carinho 🎀</p>
   </div>
 
@@ -595,36 +547,27 @@
 </div>
 
 <script>
-  /**
-   * ─────────────────────────────────────────────
-   *  CONFIGURAÇÃO — substitua pela URL gerada
-   *  no Google Apps Script após a implantação.
-   *  Veja o README para instruções passo a passo.
-   * ─────────────────────────────────────────────
-   */
+  /* ── URL do Google Apps Script ── */
   const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8UaHA6CAAAizHZ7zztGVHT44Rd5qgWuYJYN6IsAX3XN6idJyvz2iTI1ek775hepDj/exec';
 
-  /* ── Estado do formulário ── */
+  /* ── Estado ── */
   let selectedRating = null;
   let selectedIndicar = null;
 
   /* ── Gera botões de nota (0–10) ── */
   const ratingGrid = document.getElementById('ratingGrid');
-
   for (let i = 0; i <= 10; i++) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'rating-btn';
     btn.textContent = i;
     btn.setAttribute('aria-label', `Nota ${i}`);
-
     btn.addEventListener('click', () => {
       document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       selectedRating = i;
       updateProgress();
     });
-
     ratingGrid.appendChild(btn);
   }
 
@@ -657,42 +600,35 @@
     if (selectedRating !== null) filled++;
     if (document.getElementById('experiencia').value.trim()) filled++;
     if (selectedIndicar) filled++;
-
-    const pct = Math.round((filled / 4) * 100);
-    document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressLabel').textContent =
-      filled + ' de 4 perguntas respondidas';
+    document.getElementById('progressFill').style.width = Math.round((filled / 4) * 100) + '%';
+    document.getElementById('progressLabel').textContent = filled + ' de 4 perguntas respondidas';
   }
 
   document.getElementById('nome').addEventListener('input', updateProgress);
   document.getElementById('experiencia').addEventListener('input', updateProgress);
 
-  /* ── Valida campos obrigatórios ── */
+  /* ── Valida campos ── */
   function validar() {
     let valido = true;
     document.querySelectorAll('.error-msg').forEach(e => (e.style.display = 'none'));
 
     if (!document.getElementById('nome').value.trim()) {
-      document.getElementById('erroNome').style.display = 'block';
-      valido = false;
+      document.getElementById('erroNome').style.display = 'block'; valido = false;
     }
     if (selectedRating === null) {
-      document.getElementById('erroNota').style.display = 'block';
-      valido = false;
+      document.getElementById('erroNota').style.display = 'block'; valido = false;
     }
     if (!document.getElementById('experiencia').value.trim()) {
-      document.getElementById('erroExp').style.display = 'block';
-      valido = false;
+      document.getElementById('erroExp').style.display = 'block'; valido = false;
     }
     if (!selectedIndicar) {
-      document.getElementById('erroIndicar').style.display = 'block';
-      valido = false;
+      document.getElementById('erroIndicar').style.display = 'block'; valido = false;
     }
 
     return valido;
   }
 
-  /* ── Envia para o Google Sheets via Apps Script ── */
+  /* ── Envia para o Google Sheets ── */
   async function submitForm() {
     if (!validar()) return;
 
@@ -714,12 +650,11 @@
     try {
       await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        mode: 'no-cors', // necessário para Apps Script
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
-      /* Exibe tela de agradecimento */
       document.getElementById('formWrap').style.display = 'none';
       document.getElementById('thankYou').style.display = 'flex';
 
