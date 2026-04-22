@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Sweet Shop</title>
+    <style>
+        :root {
+            --sweet-pink: #F7C8D0;
+            --dark-pink: #E8AAB5;
+            --bg-white: #FFFFFF;
+            --text-gray: #5D5D5D;
+            --soft-shadow: 0 8px 30px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FFF9FA;
+            color: var(--text-gray);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: var(--bg-white);
+            max-width: 500px;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: var(--soft-shadow);
+        }
+
+        .header-banner {
+            background-color: var(--sweet-pink);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .app-screenshot {
+            width: 85%;
+            max-width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(232, 170, 181, 0.4);
+            border: 5px solid white;
+            margin-top: 20px;
+        }
+
+        .form-body {
+            padding: 35px;
+        }
+
+        h2 {
+            color: var(--dark-pink);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .question-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Opções Estilizadas */
+        .option-item {
+            display: block;
+            position: relative;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .option-item input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .option-content {
+            padding: 16px 20px;
+            border: 2px solid #F1F1F1;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-item:hover .option-content {
+            border-color: var(--sweet-pink);
+            background-color: #FFF5F6;
+        }
+
+        .option-item input:checked + .option-content {
+            border-color: var(--dark-pink);
+            background-color: var(--sweet-pink);
+            color: white;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--dark-pink);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #D694A0;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.8rem;
+            margin-top: 20px;
+            color: #BBB;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-card">
+    <div class="header-banner">
+        <h1 style="margin:0; font-size: 1.8rem; letter-spacing: 1px;">Sua Doce Opinião</h1>
+        <p style="font-size: 0.9rem; opacity: 0.9;">Nos ajude a tornar seu dia mais saboroso</p>
+        
+        <img src="https://via.placeholder.com/300x500/FFFFFF/E8AAB5?text=Preview+do+App" alt="Interface da Confeitaria" class="app-screenshot">
+    </div>
+
+    <div class="form-body">
+        <form id="confeitariaForm">
+            <span class="question-label">Você indicaria o nosso aplicativo para um amigo?</span>
+
+            <label class="option-item">
+                <input type="radio" name="indicacao" value="sim">
+                <div class="option-content">Com certeza! ✨</div>
+            </label>
+
+            <label class="option-item">
+                <input type="radio" name="indicacao" value="ressalvas">
+                <div class="option-content">Indicaria, mas tenho sugestões</div>
+            </label>
+
+            <label class="option-item">
+                <input type="radio" name="indicacao" value="mudancas">
+                <div class="option-content">Após algumas melhorias</div>
+            </label>
+
+            <label class="option-item">
+                <input type="radio" name="indicacao" value="nao">
+                <div class="option-content">Ainda não indicaria</div>
+            </label>
+
+            <button type="submit" class="btn-submit">Enviar com Carinho</button>
+        </form>
+        <p class="footer-note">Feito para os amantes de açúcar ♡</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('confeitariaForm').onsubmit = function(e) {
+        e.preventDefault();
+        const selected = document.querySelector('input[name="indicacao"]:checked');
+        if (selected) {
+            alert('Agradecemos seu feedback! Ele é o ingrediente principal do nosso sucesso. 🍰');
+        } else {
+            alert('Escolha uma opção para podermos melhorar!');
+        }
+    }
+</script>
+
+</body>
+</html>
